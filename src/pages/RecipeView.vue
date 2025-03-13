@@ -64,6 +64,7 @@
 import { useRoute } from "vue-router";
 import { useStoryblok, renderRichText, useStoryblokApi } from "@storyblok/vue";
 
+import getVersion from "@/utils";
 import RecipeCard from "@/components/RecipeCard.vue";
 
 export default {
@@ -74,13 +75,15 @@ export default {
     const route = useRoute();
     const storyblokApi = useStoryblokApi();
 
+    const version = getVersion();
+
     const recipe = await useStoryblok("recipes/" + route.params.slug, {
-      version: "draft",
+      version,
     });
 
     // Fetch additional/featured recipes to display at the end of the recipe
     const data = await storyblokApi.get("cdn/stories", {
-      version: "draft",
+      version,
       starts_with: "recipes/",
       per_page: 2,
       excluding_slugs: "recipes/" + route.params.slug,

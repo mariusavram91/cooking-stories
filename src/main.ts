@@ -14,9 +14,9 @@ const app = createApp(App);
 
 app.use(router);
 app.use(StoryblokVue, {
-  accessToken: import.meta.env.VITE_STORYBLOK_PREVIEW_TOKEN,
+  accessToken: import.meta.env.VITE_STORYBLOK_TOKEN,
   use: [apiPlugin],
-  bridge: true,
+  bridge: import.meta.env.VITE_STORYBLOK_IS_PREVIEW === "true" ? true : false,
 });
 
 app.component("RecipesList", RecipesList);

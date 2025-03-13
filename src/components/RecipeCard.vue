@@ -2,6 +2,7 @@
   <router-link :to="'/recipes/' + recipe?.slug">
     <div
       v-editable="recipe"
+      v-if="recipe && recipe.content"
       class="flex flex-col gap-4 h-42 p-4 shadow-lg rounded-lg"
     >
       <h3 class="text-lg font-bold text-gray-600">
