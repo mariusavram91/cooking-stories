@@ -25,7 +25,7 @@
 
   <div
     v-if="recipe"
-    class="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-lg"
+    class="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-lg"
   >
     <h1 class="text-3xl font-bold text-gray-900 mb-4">
       {{ recipe.content.title }}
@@ -48,21 +48,46 @@
       v-html="renderRichText(recipe.content.instructions)"
     ></div>
   </div>
+
+  <div v-if="otherRecipes" class="max-w-4xl mx-auto bg-white p-2 mt-6">
+    <h2 class="text-2xl font-semibold text-gray-900 mt-8 mb-4">
+      Other Recipes
+    </h2>
+
+    <template v-for="recipe in otherRecipes" :key="recipe._uid">
+      <RecipeCard :recipe="recipe"></RecipeCard>
+    </template>
+  </div>
 </template>
 
 <script lang="ts">
 import { useRoute } from "vue-router";
-import { useStoryblok, renderRichText } from "@storyblok/vue";
+import { useStoryblok, renderRichText, useStoryblokApi } from "@storyblok/vue";
+
+import RecipeCard from "@/components/RecipeCard.vue";
 
 export default {
+  components: {
+    RecipeCard,
+  },
   async setup() {
     const route = useRoute();
+    const storyblokApi = useStoryblokApi();
 
     const recipe = await useStoryblok("recipes/" + route.params.slug, {
       version: "draft",
     });
 
-    return { recipe, renderRichText };
+    // Fetch additional/featured recipes to display at the end of the recipe
+    const data = await storyblokApi.get("cdn/stories", {
+      version: "draft",
+      starts_with: "recipes/",
+      per_page: 2,
+      excluding_slugs: "recipes/" + route.params.slug,
+    });
+    const otherRecipes = data.data.stories;
+
+    return { recipe, otherRecipes, renderRichText };
   },
 };
 </script>
