@@ -27,10 +27,14 @@
     v-if="recipe"
     class="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-lg"
   >
-    <h1 class="text-3xl font-bold text-gray-900 mb-4">
+    <h1
+      v-editable="recipe.content"
+      class="text-3xl font-bold text-gray-900 mb-4"
+    >
       {{ recipe.content.title }}
     </h1>
     <img
+      v-editable="recipe.content"
       :src="recipe.content.image?.filename"
       alt="Recipe image"
       class="w-full h-64 object-cover rounded-lg mb-6"
@@ -38,12 +42,14 @@
 
     <h2 class="text-2xl font-semibold text-gray-900 mt-8 mb-4">Ingredients</h2>
     <div
+      v-editable="recipe.content"
       class="prose"
       v-html="renderRichText(recipe.content.ingredients)"
     ></div>
 
     <h2 class="text-2xl font-semibold text-gray-900 mt-8 mb-4">Instructions</h2>
     <div
+      v-editable="recipe.content"
       class="prose"
       v-html="renderRichText(recipe.content.instructions)"
     ></div>
