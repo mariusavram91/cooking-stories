@@ -1,25 +1,26 @@
 import "./assets/tailwind.css";
+import "./assets/global.css";
 
 import { createApp } from "vue";
+import router from "@/router";
 import { StoryblokVue, apiPlugin } from "@storyblok/vue";
 
 import App from "./App.vue";
-import GridComponent from "./components/GridComponent.vue";
+import RecipesList from "./components/RecipesList.vue";
 import PageComponent from "./components/PageComponent.vue";
-import TeaserComponent from "./components/TeaserComponent.vue";
-import FeatureComponent from "./components/FeatureComponent.vue";
+import HeroSectionComponent from "./components/HeroSectionComponent.vue";
 
 const app = createApp(App);
 
+app.use(router);
 app.use(StoryblokVue, {
   accessToken: import.meta.env.VITE_STORYBLOK_PREVIEW_TOKEN,
-  bridge: import.meta.env.NODE_ENV !== "production",
   use: [apiPlugin],
+  bridge: true,
 });
 
-app.component("grid", GridComponent);
-app.component("page", PageComponent);
-app.component("teaser", TeaserComponent);
-app.component("feature", FeatureComponent);
+app.component("RecipesList", RecipesList);
+app.component("PageComponent", PageComponent);
+app.component("HeroSectionComponent", HeroSectionComponent);
 
 app.mount("#app");

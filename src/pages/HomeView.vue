@@ -7,7 +7,10 @@ import { useStoryblok } from "@storyblok/vue";
 
 export default {
   async setup() {
-    const story = await useStoryblok("home", { version: "draft" });
+    const story = await useStoryblok("home", {
+      version: "draft",
+      resolve_relations: "RecipesList.recipes",
+    });
 
     return {
       story,

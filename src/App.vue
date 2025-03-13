@@ -1,11 +1,7 @@
-<script setup lang="ts">
-import Home from "./pages/HomeView.vue";
-</script>
-
 <template>
   <Suspense>
     <template #default>
-      <Home />
+      <router-view :key="$route.fullPath"></router-view>
     </template>
 
     <template #fallback>
