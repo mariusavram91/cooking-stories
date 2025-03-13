@@ -12,6 +12,10 @@ import RecipeView from "@/pages/RecipeView.vue";
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
+    redirect: "/home",
+  },
+  {
+    path: "/home",
     name: "Home",
     component: HomeView,
   },
